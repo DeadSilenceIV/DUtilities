@@ -8,9 +8,9 @@ import org.bukkit.World;
 import java.util.Objects;
 
 public class ChunkLocation{
-    @Getter private World world;
-    @Getter private int x;
-    @Getter private int z;
+    @Getter private final World world;
+    @Getter private final int x;
+    @Getter private final int z;
     private Integer cachedHashCode;
     public ChunkLocation(Location location) {
         world = location.getWorld();

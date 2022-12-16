@@ -1,7 +1,5 @@
 package us.lynuxcraft.deadsilenceiv.dutilities;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,13 +15,6 @@ public class FileUtils {
         }
     }
 
-    public static void save(File file,YamlConfiguration config){
-        try {
-            config.save(file);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
     public static String removeExtension(String fileName) {
         if (fileName.indexOf(".") > 0) {
             return fileName.substring(0, fileName.lastIndexOf("."));
@@ -46,7 +37,7 @@ public class FileUtils {
      * @param in the input stream instance
      * @param out the output stream instance.
      */
-    public static void copyInputStreamToOutputStream(InputStream in, FileOutputStream out) {
+    public static void copyFile(InputStream in, FileOutputStream out) {
         try {
             byte[] buf = new byte[1024];
             int len;
