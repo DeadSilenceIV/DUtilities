@@ -22,4 +22,8 @@ public abstract class YamlDataFile implements YamlDataStorage {
      */
     protected abstract void load();
 
+    protected void save() {
+        save(file, config);
+    }
+
 }
