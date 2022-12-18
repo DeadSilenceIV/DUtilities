@@ -2,6 +2,7 @@ package us.lynuxcraft.deadsilenceiv.dutilities.storage;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginBase;
+import us.lynuxcraft.deadsilenceiv.dutilities.FileUtils;
 
 import java.io.File;
 
@@ -18,6 +19,7 @@ public class BaseYamlDataFile extends YamlDataFile{
     protected void load() {
         if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
         file = new File(plugin.getDataFolder().getPath() + File.separator + fileName);
+        if(!file.exists())FileUtils.create(file);
         config = YamlConfiguration.loadConfiguration(file);
     }
 
