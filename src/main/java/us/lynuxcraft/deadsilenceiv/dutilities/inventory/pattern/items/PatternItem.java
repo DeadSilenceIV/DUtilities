@@ -1,7 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.items;
 
+
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.BaseInventoryPattern;
 
 /**
  * This class represents an item inside the pattern content

@@ -1,16 +1,14 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
 import org.bukkit.inventory.Inventory;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.UniqueButtonItem;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.UniqueItem;
 
-public interface UniqueButton extends Button<UniqueButtonItem> {
+public interface UniqueButton extends Button<UniqueItem> {
 
-    Integer getSlot();
-
-    Inventory getBukkitInventory();
+    Inventory getInventory();
 
     default void show(String itemName){
-        UniqueButtonItem item = getItemByName(itemName);
+        UniqueItem item = getItemByName(itemName);
         if(item != null){
             item.show();
             setCurrentItem(item);

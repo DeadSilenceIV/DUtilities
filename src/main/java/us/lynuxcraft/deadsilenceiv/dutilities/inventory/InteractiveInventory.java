@@ -3,16 +3,14 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.actions.*;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ButtonItem;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public interface InteractiveInventory {
 
@@ -28,16 +26,16 @@ public interface InteractiveInventory {
         getActions().add(action);
     }
 
-    default Button<?> getButtonByName(String name){
-        for (Button<?> button : getButtons()) {
+    default Button getButtonByName(String name){
+        for (Button button : getButtons()) {
             if(button.getName().equals(name))return button;
         }
         return null;
     }
 
-    default Button<?> getButton(ItemStack item){
-        for (Button<?> button : getButtons()) {
-            ButtonItem currentItem = button.getCurrentItem();
+    default Button getButton(ItemStack item){
+        for (Button button : getButtons()) {
+            InteractiveItem currentItem = button.getCurrentItem();
             if(currentItem != null) {
                 if (currentItem.getItemStack().isSimilar(item))return button;
             }
@@ -45,7 +43,7 @@ public interface InteractiveInventory {
         return null;
     }
 
-    default ButtonAction getButtonAction(Button<?> button, ClickType type){
+    default ButtonAction getButtonAction(Button button, ClickType type){
         for (InventoryAction action : getActions()) {
             if(action instanceof ButtonAction){
                 ButtonAction buttonAction = (ButtonAction)action;
@@ -58,31 +56,15 @@ public interface InteractiveInventory {
     }
 
     default SlotAction getSlotAction(int slot, ClickType type){
-        SlotAction result = null;
         for(InventoryAction action : getActions()){
             if(action instanceof SlotAction) {
              SlotAction slotAction = (SlotAction)action;
                 if (slot == slotAction.getSlot() && action.getClickType() == type) {
-                    if(result == null || result.getPriority() < slotAction.getPriority()){
-                        result = slotAction;
-                    }
+                    return slotAction;
                 }
             }
         }
-        return result;
-    }
-
-    default List<InventoryAction> getSlotActions(int slot, ClickType type){
-        return getActions().stream()
-                .sorted(Comparator.comparing(InventoryAction::getPriority))
-                .filter(action -> {
-                    if(action instanceof SlotAction){
-                        SlotAction slotAction = (SlotAction) action;
-                        return slotAction.getSlot() == slot && slotAction.getClickType() == type;
-                    }
-                    return false;
-                })
-                .collect(Collectors.toList());
+        return null;
     }
 
     default ItemAction getItemAction(ItemStack stack, ClickType type){
@@ -109,15 +91,13 @@ public interface InteractiveInventory {
 
     default void closeForViewers(){
         if(getBukkitInventory() == null)return;
-        List<HumanEntity> viewers = getBukkitInventory().getViewers();
+        List<HumanEntity> viewers = new ArrayList<>(getBukkitInventory().getViewers());
         for (int i = 0; i < viewers.size(); i++){
             viewers.get(i).closeInventory();
         }
     }
 
     void handleInventoryInteraction(InventoryClickEvent event);
-
-    default void handleInventoryDragging(InventoryDragEvent event){}
 
     Inventory getBukkitInventory();
 

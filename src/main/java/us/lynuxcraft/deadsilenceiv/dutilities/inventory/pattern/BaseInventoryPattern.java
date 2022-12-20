@@ -6,6 +6,7 @@ import us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.items.PatternIte
 
 import java.util.Set;
 
+
 public abstract class BaseInventoryPattern<I extends InteractiveInventory> implements InventoryPattern<I>{
     @Getter protected char[] blueprint;
     @Getter protected int inventorySize;

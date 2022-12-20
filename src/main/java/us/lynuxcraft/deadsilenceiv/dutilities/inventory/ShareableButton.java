@@ -1,16 +1,14 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
-import org.jetbrains.annotations.NotNull;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ShareableButtonItem;
+
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ShareableItem;
 
 import javax.annotation.Nullable;
 
-public interface ShareableButton extends Button<ShareableButtonItem> {
+public interface ShareableButton extends Button<ShareableItem> {
 
-    Integer getSlot(@NotNull InteractiveInventory inventory);
-
-    default void show(String itemName, @NotNull InteractiveInventory inventory){
-        ShareableButtonItem item = getItemByName(itemName);
+    default void show(String itemName,InteractiveInventory inventory){
+        ShareableItem item = getItemByName(itemName);
         if(item != null){
             item.show(inventory);
             setCurrentItem(item);
@@ -21,4 +19,5 @@ public interface ShareableButton extends Button<ShareableButtonItem> {
         if(getCurrentItem() == null)return;
         getCurrentItem().refresh(inventory);
     }
+
 }

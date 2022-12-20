@@ -7,18 +7,20 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import us.lynuxcraft.deadsilenceiv.dutilities.builders.ItemBuilder;
 import us.lynuxcraft.deadsilenceiv.dutilities.builders.SkullBuilder;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ButtonItem;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BaseButton<T extends ButtonItem> implements Button<T> {
+public class BaseButton<T extends InteractiveItem> implements Button<T> {
     @Getter protected final String name;
+    @Getter protected final int slot;
     @Getter protected final Set<T> items;
     @Getter @Setter protected T currentItem;
-    public BaseButton(String name) {
+    public BaseButton(String name,int slot) {
         this.name = name;
+        this.slot = slot;
         this.items = new HashSet<>();
     }
 

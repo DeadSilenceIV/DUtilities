@@ -1,16 +1,13 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory.actions;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 public abstract class InventoryAction {
     @Getter private ClickType clickType;
-    @Getter @Setter private int priority;
     InventoryAction(ClickType type){
         this.clickType = type;
-        this.priority = 0;
     }
 
     /**
@@ -18,5 +15,5 @@ public abstract class InventoryAction {
      *
      * @param player the player instance.
      */
-    public abstract boolean execute(Player player);
+    public abstract void execute(Player player);
 }

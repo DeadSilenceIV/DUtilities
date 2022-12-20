@@ -1,10 +1,10 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ButtonItem;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 
 import java.util.Set;
 
-public interface Button<T extends ButtonItem> {
+public interface Button<T extends InteractiveItem> {
 
     String getName();
 
@@ -24,5 +24,7 @@ public interface Button<T extends ButtonItem> {
     void setCurrentItem(T item);
 
     T getCurrentItem();
+
+    int getSlot();
 
 }
