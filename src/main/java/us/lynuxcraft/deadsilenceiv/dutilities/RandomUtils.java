@@ -10,4 +10,8 @@ public class RandomUtils {
         return random.nextInt(maximum - minimum) + minimum;
     }
 
+    public static double getRandomDoubleBetween(double minimum, double maximum) {
+        return random.nextDouble() * (maximum - minimum) + minimum;
+    }
+
 }
