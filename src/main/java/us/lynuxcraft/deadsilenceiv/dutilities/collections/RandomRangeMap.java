@@ -11,12 +11,11 @@ import java.util.Map;
 
 public class RandomRangeMap<K extends Rateable>{
     @Getter private Map<K,Range> map;
-    public RandomRangeMap(List<K> content) {
+    public RandomRangeMap() {
         map = new HashMap<>();
-        populate(content);
     }
 
-    private void populate(List<K> content){
+    public void populate(List<K> content){
         if(!content.isEmpty()) {
             for(int i = 0; i <= content.size() - 1; i++) {
                 K object = content.get(i);
@@ -34,11 +33,13 @@ public class RandomRangeMap<K extends Rateable>{
     }
 
     public K getRandom(){
-        double number = RandomUtils.getRandomDoubleBetween(0, getMaxChance());
-        for(K object : map.keySet()){
-            Range range = map.get(object);
-            if(range.contains(number)){
-                return object;
+        if(!map.isEmpty()) {
+            double number = RandomUtils.getRandomDoubleBetween(0, getMaxChance());
+            for (K object : map.keySet()) {
+                Range range = map.get(object);
+                if (range.contains(number)) {
+                    return object;
+                }
             }
         }
         return null;
@@ -46,10 +47,12 @@ public class RandomRangeMap<K extends Rateable>{
 
     public double getMaxChance(){
         double max = 0.0;
-        for(K object : map.keySet()){
-            Range range = map.get(object);
-            if(range.getTop() > max){
-                max = range.getTop();
+        if(!map.isEmpty()) {
+            for (K object : map.keySet()) {
+                Range range = map.get(object);
+                if (range.getTop() > max) {
+                    max = range.getTop();
+                }
             }
         }
         return max;
