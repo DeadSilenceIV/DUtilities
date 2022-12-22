@@ -21,6 +21,10 @@ public interface Button<T extends InteractiveItem> {
         getItems().add(item);
     }
 
+    default void removeItem(T item){
+        getItems().remove(item);
+    }
+
     void setCurrentItem(T item);
 
     T getCurrentItem();
