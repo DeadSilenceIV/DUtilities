@@ -26,6 +26,10 @@ public interface InteractiveInventory {
         getActions().add(action);
     }
 
+    default void clearActions(){
+        getActions().clear();
+    }
+
     default Button getButtonByName(String name){
         for (Button button : getButtons()) {
             if(button.getName().equals(name))return button;
