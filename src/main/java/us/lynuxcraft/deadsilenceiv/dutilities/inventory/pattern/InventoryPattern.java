@@ -3,7 +3,7 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.items.PatternItem;
 
-import java.util.Set;
+import java.util.List;
 
 public interface InventoryPattern<I extends InteractiveInventory> {
 
@@ -13,7 +13,7 @@ public interface InventoryPattern<I extends InteractiveInventory> {
 
     int getInventorySize();
 
-    Set<PatternItem<I>> getItems();
+    List<PatternItem<I>> getItems();
 
     /**
      * Setups the pattern in a specified InteractiveInventory.
@@ -22,8 +22,7 @@ public interface InventoryPattern<I extends InteractiveInventory> {
      */
     default void setup(I inventory){
         for (int i = 0; i < getInventorySize(); i++) {
-            char symbol = getBlueprint()[i];
-            PatternItem<I> item = getItemBySymbol(symbol);
+            PatternItem<I> item = getItems().get(i);
             if(item != null && item.setup(inventory,i))continue;
             getDefaultItem().setup(inventory,i);
         }
