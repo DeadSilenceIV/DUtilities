@@ -3,7 +3,8 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.items.PatternItem;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface InventoryPattern<I extends InteractiveInventory> {
 
@@ -11,9 +12,9 @@ public interface InventoryPattern<I extends InteractiveInventory> {
 
     char[] getBlueprint();
 
-    int getInventorySize();
+    Set<PatternItem<I>> getItems();
 
-    List<PatternItem<I>> getItems();
+    Map<Integer,PatternItem<I>> getInventory();
 
     /**
      * Setups the pattern in a specified InteractiveInventory.
@@ -22,9 +23,13 @@ public interface InventoryPattern<I extends InteractiveInventory> {
      */
     default void setup(I inventory){
         for (int i = 0; i < getInventorySize(); i++) {
-            PatternItem<I> item = getItems().get(i);
-            if(item != null && item.setup(inventory,i))continue;
-            getDefaultItem().setup(inventory,i);
+            char symbol = getBlueprint()[i];
+            PatternItem<I> item = getItem(symbol);
+            if(item == null || !item.setup(inventory,i)) {
+                item = getDefaultItem();
+                item.setup(inventory, i);
+            }
+            getInventory().put(i,item);
         }
     }
 
@@ -34,11 +39,19 @@ public interface InventoryPattern<I extends InteractiveInventory> {
      * @param symbol the symbol of the pattern
      * @return the PatternItem instance, false if any item with the specified symbol was found.
      */
-    default PatternItem<I> getItemBySymbol(char symbol){
+    default PatternItem<I> getItem(char symbol){
         for (PatternItem<I> item : getItems()) {
             if(item.getSymbol() == symbol)return item;
         }
         return null;
+    }
+
+    default PatternItem<I> getItem(int slot){
+        return getInventory().get(slot);
+    }
+
+    default int getInventorySize(){
+        return getBlueprint().length;
     }
 
 }
