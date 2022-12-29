@@ -14,7 +14,7 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
     @Getter protected final String name;
     @Getter protected final ItemStack itemStack;
     @Getter protected final Set<Placeholder> placeholders;
-    protected final ItemMeta originalMeta;
+    @Getter protected ItemMeta originalMeta;
     private Optional<String> cachedOriginalName;
     private List<String> cachedOriginalLore;
     protected boolean initiallyRefreshed;
@@ -25,6 +25,12 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
         this.placeholders = new HashSet<>();
         this.originalMeta = itemStack.getItemMeta().clone();
         this.initiallyRefreshed = false;
+    }
+
+    public void setMeta(ItemMeta meta){
+        originalMeta = meta.clone();
+        cachedOriginalName = null;
+        cachedOriginalLore = null;
     }
 
     @Override

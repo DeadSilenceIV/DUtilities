@@ -15,6 +15,11 @@ public class RandomRangeMap<K extends Rateable>{
         map = new HashMap<>();
     }
 
+    public RandomRangeMap(List<K> content){
+        map = new HashMap<>();
+        populate(content);
+    }
+
     public void populate(List<K> content){
         if(!content.isEmpty()) {
             for(int i = 0; i <= content.size() - 1; i++) {

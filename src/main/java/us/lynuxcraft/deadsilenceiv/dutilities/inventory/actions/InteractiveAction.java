@@ -4,9 +4,9 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
-public abstract class InventoryAction {
+public abstract class InteractiveAction {
     @Getter private ClickType clickType;
-    InventoryAction(ClickType type){
+    InteractiveAction(ClickType type){
         this.clickType = type;
     }
 

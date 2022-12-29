@@ -16,13 +16,13 @@ public interface InteractiveInventory {
 
     Set<Button> getButtons();
 
-    Set<InventoryAction> getActions();
+    Set<InteractiveAction> getActions();
 
     default void addButton(Button button){
         getButtons().add(button);
     }
 
-    default void addAction(InventoryAction action){
+    default void addAction(InteractiveAction action){
         getActions().add(action);
     }
 
@@ -48,7 +48,7 @@ public interface InteractiveInventory {
     }
 
     default ButtonAction getButtonAction(Button button, ClickType type){
-        for (InventoryAction action : getActions()) {
+        for (InteractiveAction action : getActions()) {
             if(action instanceof ButtonAction){
                 ButtonAction buttonAction = (ButtonAction)action;
                 if(buttonAction.getButton().equals(button) && buttonAction.getClickType() == type){
@@ -60,7 +60,7 @@ public interface InteractiveInventory {
     }
 
     default SlotAction getSlotAction(int slot, ClickType type){
-        for(InventoryAction action : getActions()){
+        for(InteractiveAction action : getActions()){
             if(action instanceof SlotAction) {
              SlotAction slotAction = (SlotAction)action;
                 if (slot == slotAction.getSlot() && action.getClickType() == type) {
@@ -72,7 +72,7 @@ public interface InteractiveInventory {
     }
 
     default ItemAction getItemAction(ItemStack stack, ClickType type){
-        for(InventoryAction action : getActions()){
+        for(InteractiveAction action : getActions()){
             if(action instanceof ItemAction) {
                 ItemAction itemAction = (ItemAction)action;
                 if(itemAction.getStack().isSimilar(stack) && action.getClickType() == type)return itemAction;
@@ -82,7 +82,7 @@ public interface InteractiveInventory {
     }
 
     default OutSideAction getOutSideAction(ClickType clickType){
-        for (InventoryAction action : getActions()) {
+        for (InteractiveAction action : getActions()) {
             if(action instanceof OutSideAction){
                 OutSideAction outSideAction = (OutSideAction)action;
                 if(outSideAction.getClickType().equals(clickType)){
