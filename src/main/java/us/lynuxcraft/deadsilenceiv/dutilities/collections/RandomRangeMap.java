@@ -1,6 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.collections;
 
 import lombok.Getter;
+import lombok.Setter;
 import us.lynuxcraft.deadsilenceiv.dutilities.RandomUtils;
 import us.lynuxcraft.deadsilenceiv.dutilities.Range;
 import us.lynuxcraft.deadsilenceiv.dutilities.Rateable;
@@ -12,12 +13,15 @@ import java.util.Map;
 public class RandomRangeMap<K extends Rateable>{
     @Getter private Map<K,Range> map;
     private Double maxChance;
+    @Getter @Setter private Integer randomGenerationLimit;
+    @Getter @Setter private int randomGenerationCount;
     public RandomRangeMap() {
         map = new HashMap<>();
+        randomGenerationCount = 0;
     }
 
     public RandomRangeMap(List<K> content){
-        map = new HashMap<>();
+        this();
         populate(content);
     }
 
@@ -41,11 +45,12 @@ public class RandomRangeMap<K extends Rateable>{
     }
 
     public K getRandom(){
-        if(!map.isEmpty()) {
+        if(!map.isEmpty() && (randomGenerationLimit == null || randomGenerationCount < randomGenerationLimit)) {
             double number = RandomUtils.getRandomDoubleBetween(0, getMaxChance());
             for (K object : map.keySet()) {
                 Range range = map.get(object);
                 if (range.contains(number)) {
+                    randomGenerationCount++;
                     return object;
                 }
             }
