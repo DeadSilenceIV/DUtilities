@@ -55,6 +55,7 @@ public class RandomRangeMap<K extends Rateable>{
 
     public Double getMaxChance(){
         if(maxChance == null && !map.isEmpty()) {
+            maxChance = 0.0;
             for (K object : map.keySet()) {
                 Range range = map.get(object);
                 if (range.getTop() > maxChance) {
