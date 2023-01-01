@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class RandomRangeMap<K extends Rateable>{
     @Getter private Map<K,Range> map;
+    private Double maxChance;
     public RandomRangeMap() {
         map = new HashMap<>();
     }
@@ -22,6 +23,8 @@ public class RandomRangeMap<K extends Rateable>{
 
     public void populate(List<K> content){
         if(!content.isEmpty()) {
+            // Invalidates the cache
+            maxChance = null;
             for(int i = 0; i <= content.size() - 1; i++) {
                 K object = content.get(i);
                 K lastObject = (i-1 >= 0) ? content.get(i-1) : null;
@@ -50,17 +53,16 @@ public class RandomRangeMap<K extends Rateable>{
         return null;
     }
 
-    public double getMaxChance(){
-        double max = 0.0;
-        if(!map.isEmpty()) {
+    public Double getMaxChance(){
+        if(maxChance == null && !map.isEmpty()) {
             for (K object : map.keySet()) {
                 Range range = map.get(object);
-                if (range.getTop() > max) {
-                    max = range.getTop();
+                if (range.getTop() > maxChance) {
+                    maxChance = range.getTop();
                 }
             }
         }
-        return max;
+        return maxChance;
     }
 
 }
