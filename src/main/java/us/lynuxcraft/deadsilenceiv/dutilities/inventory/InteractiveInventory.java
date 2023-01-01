@@ -3,6 +3,7 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.actions.*;
@@ -102,6 +103,8 @@ public interface InteractiveInventory {
     }
 
     void handleInventoryInteraction(InventoryClickEvent event);
+
+    default void handleInventoryDragging(InventoryDragEvent event){}
 
     Inventory getBukkitInventory();
 
