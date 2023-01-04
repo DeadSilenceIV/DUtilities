@@ -1,22 +1,23 @@
 package us.lynuxcraft.deadsilenceiv.dutilities;
 
 import com.cryptomorin.xseries.XMaterial;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import us.lynuxcraft.deadsilenceiv.dutilities.builders.ItemBuilder;
 import us.lynuxcraft.deadsilenceiv.dutilities.builders.SkullBuilder;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+
 
 public class ItemUtils {
+    private static final Map<Short, ItemStack> CACHED_PANELS = new HashMap<>();
 
-    private static final LoadingCache<Short, ItemStack> backgrounds = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build(new CacheLoader<Short, ItemStack>(){
-        @Override
-        public ItemStack load(Short color){
+    @SuppressWarnings("all")
+    public static ItemStack getInventoryBackground(short color){
+        if(!CACHED_PANELS.containsKey(color)){
             XMaterial material;
             switch (color){
                 case 0:
@@ -67,29 +68,30 @@ public class ItemUtils {
                 default:
                     material = XMaterial.BLACK_STAINED_GLASS_PANE;
             }
-            return new ItemBuilder(material.parseItem()).setName(""+ ChatColor.ITALIC+ChatColor.RESET).build();
+            ItemStack item =  new ItemBuilder(material.parseItem()).setName(""+ ChatColor.ITALIC+ChatColor.RESET).build();
+            CACHED_PANELS.put(color,item);
+            return item;
+        }else{
+            return CACHED_PANELS.get(color);
         }
-    });
+    }
 
-    public static ItemStack getItemStack(XMaterial material, String name, String headName,List<String> lore){
+    public static ItemStack getItemStack(Material material, String name, String headName, List<String> lore, Integer customModelData){
         ItemStack item;
-        if(material == XMaterial.PLAYER_HEAD){
-            item = new SkullBuilder()
-                    .setOwner(headName)
+        if(material == XMaterial.PLAYER_HEAD.parseMaterial()){
+            item = new SkullBuilder(headName)
                     .setName(name)
                     .setLore(lore)
+                    .setCustomModelData(customModelData)
                     .build();
         }else {
-            item = new ItemBuilder(material.parseItem())
+            item = new ItemBuilder(material)
                     .setName(name)
                     .setLore(lore)
+                    .setCustomModelData(customModelData)
                     .build();
         }
         return item;
-    }
-
-    public static ItemStack getInventoryBackground(short color){
-        return backgrounds.getUnchecked(color);
     }
 
 }
