@@ -45,12 +45,18 @@ public class RandomRangeMap<K extends Rateable>{
     }
 
     public K getRandom(){
+        return getRandom(true);
+    }
+
+    public K getRandom(boolean increaseGenerationCounter){
         if(!map.isEmpty() && (randomGenerationLimit == null || randomGenerationCount < randomGenerationLimit)) {
             double number = RandomUtils.getRandomDoubleBetween(0, getMaxChance());
             for (K object : map.keySet()) {
                 Range range = map.get(object);
                 if (range.contains(number)) {
-                    randomGenerationCount++;
+                    if(increaseGenerationCounter) {
+                        randomGenerationCount++;
+                    }
                     return object;
                 }
             }
