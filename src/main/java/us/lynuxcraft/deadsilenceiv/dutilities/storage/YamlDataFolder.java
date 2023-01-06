@@ -78,7 +78,7 @@ public class YamlDataFolder implements YamlDataStorage{
      * @param uuid the UUID instance.
      * @return true if was correctly removed, false if the uuid didn't exist in the storage.
      */
-    protected boolean delete(UUID uuid){
+    public boolean delete(UUID uuid){
         if(data.containsKey(uuid)){
             File file = data.get(uuid).getKey();
             file.delete();
