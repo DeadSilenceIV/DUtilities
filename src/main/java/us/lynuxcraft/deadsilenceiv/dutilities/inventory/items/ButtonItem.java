@@ -83,4 +83,12 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
         }
         return cachedOriginalLore;
     }
+
+    protected ItemMeta getUpdatedMeta(){
+        ItemMeta updatedMeta = originalMeta.clone();
+        updateName(updatedMeta);
+        updateLore(updatedMeta);
+        return updatedMeta;
+    }
+
 }

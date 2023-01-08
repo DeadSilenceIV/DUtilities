@@ -1,8 +1,12 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory.items;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.UniqueButton;
+
+import java.util.concurrent.CompletableFuture;
 
 public class UniqueButtonItem extends ButtonItem<UniqueButton> implements UniqueItem{
     public UniqueButtonItem(UniqueButton button, String name, ItemStack itemStack) {
@@ -24,6 +28,14 @@ public class UniqueButtonItem extends ButtonItem<UniqueButton> implements Unique
         itemStack.setItemMeta(updatedMeta);
         button.getInventory().setItem(button.getSlot(), itemStack);
         initiallyRefreshed = true;
+    }
+
+    public void refreshAsync(JavaPlugin plugin){
+        CompletableFuture.supplyAsync(this::getUpdatedMeta).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
+            itemStack.setItemMeta(updatedMeta);
+            button.getInventory().setItem(button.getSlot(), itemStack);
+            initiallyRefreshed = true;
+        }));
     }
 
 }

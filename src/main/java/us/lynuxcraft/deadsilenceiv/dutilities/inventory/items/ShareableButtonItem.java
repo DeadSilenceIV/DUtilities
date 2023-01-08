@@ -1,9 +1,13 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory.items;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.ShareableButton;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ShareableButtonItem extends ButtonItem<ShareableButton> implements ShareableItem{
     public ShareableButtonItem(ShareableButton button, String name, ItemStack itemStack) {
@@ -19,12 +23,18 @@ public class ShareableButtonItem extends ButtonItem<ShareableButton> implements 
 
     @Override
     public void refresh(InteractiveInventory inventory) {
-        ItemMeta updatedMeta = originalMeta.clone();
-        updateName(updatedMeta);
-        updateLore(updatedMeta);
+        ItemMeta updatedMeta = getUpdatedMeta();
         itemStack.setItemMeta(updatedMeta);
         if(inventory != null)setItem(inventory);
         initiallyRefreshed = true;
+    }
+
+    public void refreshAsync(JavaPlugin plugin,InteractiveInventory inventory){
+        CompletableFuture.supplyAsync(this::getUpdatedMeta).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
+            itemStack.setItemMeta(updatedMeta);
+            if(inventory != null)setItem(inventory);
+            initiallyRefreshed = true;
+        }));
     }
 
     private void setItem(InteractiveInventory inventory){
