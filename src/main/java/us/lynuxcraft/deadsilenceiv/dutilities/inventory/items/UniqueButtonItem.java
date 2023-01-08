@@ -30,6 +30,7 @@ public class UniqueButtonItem extends ButtonItem<UniqueButton> implements Unique
         initiallyRefreshed = true;
     }
 
+    @Override
     public void refreshAsync(JavaPlugin plugin){
         CompletableFuture.supplyAsync(this::getUpdatedMeta).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
             itemStack.setItemMeta(updatedMeta);

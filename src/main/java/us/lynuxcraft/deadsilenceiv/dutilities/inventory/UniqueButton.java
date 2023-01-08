@@ -1,6 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.java.JavaPlugin;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.UniqueItem;
 
 public interface UniqueButton extends Button<UniqueItem> {
@@ -18,6 +19,11 @@ public interface UniqueButton extends Button<UniqueItem> {
     default void refresh(){
         if(getCurrentItem() == null)return;
         getCurrentItem().refresh();
+    }
+
+    default void refreshAsync(JavaPlugin plugin){
+        if(getCurrentItem() == null)return;
+        getCurrentItem().refreshAsync(plugin);
     }
 
 }
