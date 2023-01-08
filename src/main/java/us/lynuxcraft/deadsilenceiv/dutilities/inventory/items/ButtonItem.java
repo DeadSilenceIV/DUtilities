@@ -8,11 +8,9 @@ import us.lynuxcraft.deadsilenceiv.dutilities.Placeholder;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.Button;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 public class ButtonItem<T extends Button<? extends InteractiveItem>> implements InteractiveItem {
-    private static ExecutorService executor;
     @Getter protected final T button;
     @Getter protected final String name;
     @Getter protected final ItemStack itemStack;
@@ -93,13 +91,6 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
         updateName(updatedMeta);
         updateLore(updatedMeta);
         return updatedMeta;
-    }
-
-    protected static ExecutorService getExecutor(){
-        if(executor == null){
-            executor = Executors.newSingleThreadExecutor();
-        }
-        return executor;
     }
 
 }
