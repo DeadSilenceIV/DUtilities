@@ -31,7 +31,7 @@ public class ShareableButtonItem extends ButtonItem<ShareableButton> implements 
 
     @Override
     public void refreshAsync(JavaPlugin plugin,InteractiveInventory inventory){
-        CompletableFuture.supplyAsync(this::getUpdatedMeta).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
+        CompletableFuture.supplyAsync(this::getUpdatedMeta,getExecutor()).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
             itemStack.setItemMeta(updatedMeta);
             if(inventory != null)setItem(inventory);
             initiallyRefreshed = true;

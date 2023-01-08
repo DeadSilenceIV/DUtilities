@@ -32,7 +32,7 @@ public class UniqueButtonItem extends ButtonItem<UniqueButton> implements Unique
 
     @Override
     public void refreshAsync(JavaPlugin plugin){
-        CompletableFuture.supplyAsync(this::getUpdatedMeta).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
+        CompletableFuture.supplyAsync(this::getUpdatedMeta,getExecutor()).thenAccept(updatedMeta -> Bukkit.getScheduler().runTask(plugin, () -> {
             itemStack.setItemMeta(updatedMeta);
             button.getInventory().setItem(button.getSlot(), itemStack);
             initiallyRefreshed = true;
