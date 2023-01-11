@@ -22,16 +22,17 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
     public YamlDataFolder(PluginBase plugin, String folderName, Set<YamlDataFile> initialFiles) {
         this.plugin = plugin;
         data = new HashMap<>();
-        folder = new File(plugin.getDataFolder().getPath()+File.separator+folderName);
-        if(!folder.exists()){
+        folder = new File(plugin.getDataFolder().getPath() + File.separator + folderName);
+        if (!folder.exists()) {
             folder.mkdirs();
-            if(initialFiles != null) {
+            if (initialFiles != null) {
                 for (YamlDataFile file : initialFiles) {
                     file.setFolderName(folderName);
                     file.load();
                 }
             }
         }
+        load();
     }
 
     public YamlDataFolder(PluginBase plugin,String folderName){
@@ -54,11 +55,6 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
                 }
             }
         }
-    }
-
-    public void load(YamlDataFile file){
-        I identifier = getIdentifier(file.file);
-        data.put(identifier,new Pair<>(file.file,file.config));
     }
 
     /**
