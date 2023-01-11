@@ -21,7 +21,7 @@ public class YamlResource extends YamlDataFile {
     protected void load(){
         InputStream input = plugin.getResource(fileName);
         if(!plugin.getDataFolder().exists())plugin.getDataFolder().mkdirs();
-        file = new File(plugin.getDataFolder().getPath() + File.separator + fileName);
+        loadFile();
         copyIfNotExists(input);
         config = YamlConfiguration.loadConfiguration(file);
     }

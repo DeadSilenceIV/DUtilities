@@ -9,22 +9,29 @@ import us.lynuxcraft.deadsilenceiv.dutilities.Pair;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Set;
 
 /**
  * This class handles a folder of YAML files.
  */
-public class YamlDataFolder implements YamlDataStorage{
+public abstract class YamlDataFolder<I> implements YamlDataStorage{
     @Getter protected PluginBase plugin;
     protected File folder;
-    @Getter protected Map<UUID,Pair<File,YamlConfiguration>> data;
-    public YamlDataFolder(PluginBase plugin,String folderName) {
+    @Getter protected Map<I,Pair<File,YamlConfiguration>> data;
+    @SuppressWarnings("all")
+    public YamlDataFolder(PluginBase plugin, String folderName, Set<YamlDataFile> initialFiles) {
         this.plugin = plugin;
         data = new HashMap<>();
         folder = new File(plugin.getDataFolder().getPath()+File.separator+folderName);
-        if(!folder.exists())folder.mkdirs();
-        load();
+        if(!folder.exists()){
+            folder.mkdirs();
+            for (YamlDataFile file : initialFiles) {
+                file.load();
+            }
+        }
     }
+
+    public abstract I getIdentifier(File file);
 
     /**
      * Loads each YAML file inside the data folder.
@@ -34,24 +41,29 @@ public class YamlDataFolder implements YamlDataStorage{
         if(files != null){
             for(File file : files){
                 if(FileUtils.getFileExtension(file.getName()).equals(".yml")) {
-                    UUID uuid = UUID.fromString(FileUtils.removeExtension(file.getName()));
+                    I identifier = getIdentifier(file);
                     YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                    data.put(uuid,new Pair<>(file,config));
+                    data.put(identifier,new Pair<>(file,config));
                 }
             }
         }
     }
 
+    public void load(YamlDataFile file){
+        I identifier = getIdentifier(file.file);
+        data.put(identifier,new Pair<>(file.file,file.config));
+    }
+
     /**
      * Gets the config data of an uuid.
      *
-     * @param uuid the uuid instance
+     * @param identifier the file's identifier
      * @return the {@link Pair} of the config data, null if is not found.
      */
-    protected Pair<File,YamlConfiguration> getConfigData(UUID uuid){
-        for (UUID id : data.keySet()) {
-            if(id.equals(uuid)){
-                return data.get(uuid);
+    protected Pair<File,YamlConfiguration> getConfigData(I identifier){
+        for (I id : data.keySet()) {
+            if(id.equals(identifier)){
+                return data.get(identifier);
             }
         }
         return null;
@@ -60,29 +72,30 @@ public class YamlDataFolder implements YamlDataStorage{
     /**
      * Creates the config data for a specified uuid and save it in cache.
      *
-     * @param uuid the uuid instance
+     * @param identifier the file's identifier
      * @return the {@link Pair} of the config data created and saved.
      */
-    protected Pair<File,YamlConfiguration> createAndSaveConfigDataInCache(UUID uuid){
-        File file = new File(folder.getPath()+File.separator+uuid.toString()+".yml");
+    protected Pair<File,YamlConfiguration> createAndSaveConfigDataInCache(I identifier){
+        File file = new File(folder.getPath()+File.separator+identifier.toString()+".yml");
         if(!file.exists()) FileUtils.create(file);
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         Pair<File,YamlConfiguration> configData = new Pair<>(file,config);
-        data.put(uuid,configData);
+        data.put(identifier,configData);
         return configData;
     }
 
     /**
      * Deletes the specified UUID of the storage.
      *
-     * @param uuid the UUID instance.
+     * @param identifier the UUID instance.
      * @return true if was correctly removed, false if the uuid didn't exist in the storage.
      */
-    public boolean delete(UUID uuid){
-        if(data.containsKey(uuid)){
-            File file = data.get(uuid).getKey();
+    @SuppressWarnings("all")
+    public boolean delete(I identifier){
+        if(data.containsKey(identifier)){
+            File file = data.get(identifier).getKey();
             file.delete();
-            data.remove(uuid);
+            data.remove(identifier);
             return true;
         }
         return false;

@@ -19,7 +19,6 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
     private Optional<String> cachedOriginalName;
     private List<String> cachedOriginalLore;
     protected boolean initiallyRefreshed;
-
     public ButtonItem(T button, String name, ItemStack itemStack) {
         this.button = button;
         this.name = name;
