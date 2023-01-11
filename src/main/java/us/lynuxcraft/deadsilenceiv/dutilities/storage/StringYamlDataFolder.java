@@ -12,6 +12,10 @@ public class StringYamlDataFolder extends YamlDataFolder<String>{
         super(plugin, folderName, initialFiles);
     }
 
+    public StringYamlDataFolder(PluginBase plugin, String folderName) {
+        super(plugin, folderName);
+    }
+
     @Override
     public String getIdentifier(File file) {
         return FileUtils.removeExtension(file.getName());

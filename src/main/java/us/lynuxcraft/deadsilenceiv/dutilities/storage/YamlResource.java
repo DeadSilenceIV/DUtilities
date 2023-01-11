@@ -17,6 +17,8 @@ public class YamlResource extends YamlDataFile {
         super(plugin, fileName);
     }
 
+
+
     @Override
     protected void load(){
         InputStream input = plugin.getResource(fileName);

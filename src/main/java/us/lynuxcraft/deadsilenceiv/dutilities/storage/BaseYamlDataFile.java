@@ -13,6 +13,8 @@ public class BaseYamlDataFile extends YamlDataFile{
         super(plugin, fileName);
     }
 
+
+
     @Override
     protected void load() {
         if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();

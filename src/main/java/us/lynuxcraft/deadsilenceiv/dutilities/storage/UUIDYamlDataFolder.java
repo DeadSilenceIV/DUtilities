@@ -13,6 +13,10 @@ public class UUIDYamlDataFolder extends YamlDataFolder<UUID> {
         super(plugin, folderName, initialFiles);
     }
 
+    public UUIDYamlDataFolder(PluginBase plugin, String folderName) {
+        super(plugin, folderName);
+    }
+
     @Override
     public UUID getIdentifier(File file) {
         return UUID.fromString(FileUtils.removeExtension(file.getName()));
