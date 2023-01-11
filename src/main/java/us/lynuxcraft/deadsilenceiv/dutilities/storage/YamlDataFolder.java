@@ -25,10 +25,16 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
         folder = new File(plugin.getDataFolder().getPath()+File.separator+folderName);
         if(!folder.exists()){
             folder.mkdirs();
-            for (YamlDataFile file : initialFiles) {
-                file.load();
+            if(initialFiles != null) {
+                for (YamlDataFile file : initialFiles) {
+                    file.load();
+                }
             }
         }
+    }
+
+    public YamlDataFolder(PluginBase plugin,String folderName){
+        this(plugin,folderName,null);
     }
 
     public abstract I getIdentifier(File file);
