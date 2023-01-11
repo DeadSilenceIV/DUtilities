@@ -21,7 +21,7 @@ public class ItemBuilder{
         stack = itemStack.clone();
     }
 
-    public ItemBuilder(){}
+    ItemBuilder(){}
 
     public ItemBuilder setAmount(Integer amount){
         stack.setAmount(amount);
@@ -35,22 +35,26 @@ public class ItemBuilder{
 
 
     public ItemBuilder setName(String name){
-        ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',name));
-        stack.setItemMeta(meta);
+        if(name != null) {
+            ItemMeta meta = stack.getItemMeta();
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            stack.setItemMeta(meta);
+        }
         return this;
     }
 
     public ItemBuilder setLore(List<String> lore){
-        if(!lore.isEmpty()) {
-            for(int i = 0; i <= lore.size()-1; i++) {
-                String line = lore.get(i);
-                lore.set(i,ChatColor.translateAlternateColorCodes('&',line));
+        if(lore != null) {
+            if (!lore.isEmpty()) {
+                for (int i = 0; i <= lore.size() - 1; i++) {
+                    String line = lore.get(i);
+                    lore.set(i, ChatColor.translateAlternateColorCodes('&', line));
+                }
             }
+            ItemMeta meta = stack.getItemMeta();
+            meta.setLore(lore);
+            stack.setItemMeta(meta);
         }
-        ItemMeta meta = stack.getItemMeta();
-        meta.setLore(lore);
-        stack.setItemMeta(meta);
         return this;
     }
 
