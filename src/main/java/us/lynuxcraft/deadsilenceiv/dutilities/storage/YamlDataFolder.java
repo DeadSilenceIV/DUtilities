@@ -27,6 +27,7 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
             folder.mkdirs();
             if(initialFiles != null) {
                 for (YamlDataFile file : initialFiles) {
+                    file.setFolderName(folderName);
                     file.load();
                 }
             }
