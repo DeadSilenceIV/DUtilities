@@ -3,15 +3,14 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 import lombok.Getter;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class InventoryPage extends BaseInteractiveInventory {
     protected Inventory inventory;
     @Getter protected int id;
-    @Getter protected ItemStack[] initial;
-    public InventoryPage(int id,ItemStack[] initial) {
+    @Getter protected int size;
+    public InventoryPage(int id,int size) {
         this.id = id;
-        this.initial = initial;
+        this.size = size;
     }
 
     protected abstract MultiPagesInventory<? extends InventoryPage> getOwner();
