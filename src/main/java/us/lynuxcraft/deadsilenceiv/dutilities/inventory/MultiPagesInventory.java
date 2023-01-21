@@ -2,7 +2,6 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
 import lombok.Getter;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,23 +30,20 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
             int pagesToCreate = (size % 45 == 0) ? (numberOfPages-1) : numberOfPages;
             int lastPageSlots = (size % 45 != 0) ? (totalRows-(numberOfPages*5))*9 : 45;
             for (int i = 0; i <= pagesToCreate; i++){
-                pages.put(i,i < pagesToCreate ? newPage(i, new ItemStack[45]) : newPage(i, new ItemStack[lastPageSlots]));
+                pages.put(i,i < pagesToCreate ? newPage(i, 45) : newPage(i, lastPageSlots));
             }
         }else{
-            pages.put(0,newPage(0, new ItemStack[size]));
+            pages.put(0,newPage(0, size));
         }
     }
 
-    /**
-     * Loads all the pages of the chest.
-     */
     protected void loadPages(){
         for(T page : getPages().values()){
             page.setupPage();
         }
     }
 
-    protected abstract T newPage(int id,ItemStack[] initial);
+    protected abstract T newPage(int id,int size);
 
     public T getPageById(int id){
         return getPages().get(id);
