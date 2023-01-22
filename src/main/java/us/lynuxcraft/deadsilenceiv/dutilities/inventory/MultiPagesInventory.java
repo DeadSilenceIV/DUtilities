@@ -57,6 +57,9 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
             changeLastPageSlots(lastPageSlots);
         }else{
             result = changeLastPageSlots(lastPageSlots);
+            if(result == ResizeResult.LAST_PAGE_SLOTS_MODIFIED){
+                modified.add(pages.get(pages.size()-1));
+            }
         }
         this.size = newSize;
         return new Pair<>(result,modified);
