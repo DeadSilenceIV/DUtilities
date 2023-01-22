@@ -7,9 +7,9 @@ import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InventoryManager {
+public class InteractiveInventoryManager {
     @Getter private final Map<Inventory, InteractiveInventory> inventories;
-    public InventoryManager() {
+    public InteractiveInventoryManager() {
         inventories = new HashMap<>();
     }
 

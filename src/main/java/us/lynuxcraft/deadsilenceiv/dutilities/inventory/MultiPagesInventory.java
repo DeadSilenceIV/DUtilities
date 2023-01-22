@@ -3,6 +3,7 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 import lombok.Getter;
 import org.bukkit.entity.HumanEntity;
 import us.lynuxcraft.deadsilenceiv.dutilities.Pair;
+import us.lynuxcraft.deadsilenceiv.dutilities.managers.InteractiveInventoryManager;
 
 import java.util.*;
 
@@ -52,6 +53,7 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
             result = ResizeResult.REMOVED_PAGES;
             for (int i = numberOfPages-1; i < pages.size(); i++) {
                 T removed = pages.remove(i);
+                getInventoryManager().unRegister(removed);
                 modified.add(removed);
             }
             changeLastPageSlots(lastPageSlots);
@@ -66,10 +68,11 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
     }
 
     protected ResizeResult changeLastPageSlots(int newAmount){
-        int lastPage = pages.size()-1;
-        int currentLastPageSlots = pages.get(lastPage).getBukkitInventory().getSize();
+        int lastPageId = pages.size()-1;
+        int currentLastPageSlots = pages.get(lastPageId).getBukkitInventory().getSize();
         if(currentLastPageSlots != newAmount){
-            pages.remove(lastPage);
+            T removed = pages.remove(lastPageId);
+            getInventoryManager().unRegister(removed);
             pages.put(pages.size(),newPage(pages.size(), newAmount));
             return ResizeResult.LAST_PAGE_SLOTS_MODIFIED;
         }
@@ -83,6 +86,8 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
     }
 
     protected abstract T newPage(int id,int size);
+
+    protected abstract InteractiveInventoryManager getInventoryManager();
 
     public T getPageById(int id){
         return getPages().get(id);
@@ -110,4 +115,5 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
         LAST_PAGE_SLOTS_MODIFIED,
         NOTHING
     }
+
 }

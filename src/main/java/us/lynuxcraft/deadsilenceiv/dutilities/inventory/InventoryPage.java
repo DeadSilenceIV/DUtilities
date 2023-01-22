@@ -21,6 +21,10 @@ public abstract class InventoryPage extends BaseInteractiveInventory {
         entity.openInventory(getBukkitInventory());
     }
 
+    public void register(){
+        getOwner().getInventoryManager().register(this);
+    }
+
     @Override
     public Inventory getBukkitInventory() {
         return inventory;
