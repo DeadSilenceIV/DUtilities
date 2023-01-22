@@ -56,20 +56,21 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
             }
             changeLastPageSlots(lastPageSlots);
         }else{
-            result = ResizeResult.NOTHING;
-            changeLastPageSlots(lastPageSlots);
+            result = changeLastPageSlots(lastPageSlots);
         }
         this.size = newSize;
         return new Pair<>(result,modified);
     }
 
-    protected void changeLastPageSlots(int newAmount){
+    protected ResizeResult changeLastPageSlots(int newAmount){
         int lastPage = pages.size()-1;
         int currentLastPageSlots = pages.get(lastPage).getBukkitInventory().getSize();
         if(currentLastPageSlots != newAmount){
             pages.remove(lastPage);
             pages.put(pages.size(),newPage(pages.size(), newAmount));
+            return ResizeResult.LAST_PAGE_SLOTS_MODIFIED;
         }
+        return ResizeResult.NOTHING;
     }
 
     protected void loadPages(){
@@ -103,6 +104,7 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
     protected enum ResizeResult{
         ADDED_PAGES,
         REMOVED_PAGES,
+        LAST_PAGE_SLOTS_MODIFIED,
         NOTHING
     }
 }
