@@ -10,13 +10,12 @@ import java.util.UUID;
 
 public abstract class MultiPagesInventory<T extends InventoryPage>{
     protected UUID uuid;
-    protected int size;
+    @Getter protected int size;
     @Getter protected final Map<Integer,T> pages;
     protected Integer cachedHashCode;
-    public MultiPagesInventory(int size){
+    public MultiPagesInventory(){
         uuid = UUID.randomUUID();
         pages = new HashMap<>();
-        this.size = size;
     }
 
     public void openPage(HumanEntity entity, int id){
@@ -34,6 +33,36 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
             }
         }else{
             pages.put(0,newPage(0, size));
+        }
+        this.size = size;
+    }
+
+    protected void resize(int newSize){
+        int numberOfPages = (int) Math.floor((double) newSize/ (double) 45);
+        int totalRows = (newSize/9);
+        int pagesToCreate = (newSize % 45 == 0) ? (numberOfPages-1) : numberOfPages;
+        int lastPageSlots = (newSize % 45 != 0) ? (totalRows-(numberOfPages*5))*9 : 45;
+        if(numberOfPages > pages.size()){
+            for (int i = pages.size()-1; i < numberOfPages; i++) {
+                pages.put(i,i < pagesToCreate ? newPage(i, 45) : newPage(i, lastPageSlots));
+            }
+        }else if(numberOfPages < pages.size()){
+            for (int i = numberOfPages-1; i < pages.size(); i++) {
+                pages.remove(i);
+            }
+            changeLastPageSlots(lastPageSlots);
+        }else{
+            changeLastPageSlots(lastPageSlots);
+        }
+        this.size = newSize;
+    }
+
+    protected void changeLastPageSlots(int newAmount){
+        int lastPage = pages.size()-1;
+        int currentLastPageSlots = pages.get(lastPage).getBukkitInventory().getSize();
+        if(currentLastPageSlots != newAmount){
+            pages.remove(lastPage);
+            pages.put(pages.size(),newPage(pages.size(), newAmount));
         }
     }
 
