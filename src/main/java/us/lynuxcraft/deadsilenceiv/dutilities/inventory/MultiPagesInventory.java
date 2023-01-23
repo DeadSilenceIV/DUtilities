@@ -46,7 +46,8 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
         if(numberOfPages > pages.size()){
             result = ResizeResult.ADDED_PAGES;
             for (int i = pages.size()-1; i < numberOfPages; i++) {
-                T added = pages.put(i,i < pagesToCreate ? newPage(i, 45) : newPage(i, lastPageSlots));
+                T added = i < pagesToCreate ? newPage(i, 45) : newPage(i, lastPageSlots);
+                pages.put(i,added);
                 modified.add(added);
             }
         }else if(numberOfPages < pages.size()){
