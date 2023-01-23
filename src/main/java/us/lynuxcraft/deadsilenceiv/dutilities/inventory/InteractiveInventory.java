@@ -9,9 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.actions.*;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public interface InteractiveInventory {
 
@@ -19,16 +17,38 @@ public interface InteractiveInventory {
 
     Set<InteractiveAction> getActions();
 
+    Map<Integer,Set<SlotAction>> getSlotActions();
+
     default void addButton(Button button){
         getButtons().add(button);
     }
 
     default void addAction(InteractiveAction action){
         getActions().add(action);
+        if(action instanceof SlotAction){
+            SlotAction slotAction = (SlotAction)action;
+            Set<SlotAction> actions = getSlotActions().getOrDefault(slotAction.getSlot(),new HashSet<>());
+            actions.add(slotAction);
+            getSlotActions().put(slotAction.getSlot(),actions);
+        }
     }
 
     default void clearActions(){
         getActions().clear();
+        getSlotActions().clear();
+    }
+
+    default void clearSlotActions(int... slots){
+        for (int slot : slots) {
+            Set<SlotAction> actions = getSlotActions().get(slot);
+            if(actions != null){
+                actions = new HashSet<>(actions);
+                getSlotActions().get(slot).clear();
+                for (SlotAction action : actions) {
+                    getActions().remove(action);
+                }
+            }
+        }
     }
 
     default Button getButtonByName(String name){
@@ -61,11 +81,11 @@ public interface InteractiveInventory {
     }
 
     default SlotAction getSlotAction(int slot, ClickType type){
-        for(InteractiveAction action : getActions()){
-            if(action instanceof SlotAction) {
-             SlotAction slotAction = (SlotAction)action;
-                if (slot == slotAction.getSlot() && action.getClickType() == type) {
-                    return slotAction;
+        Set<SlotAction> actions = getSlotActions().get(slot);
+        if(actions != null){
+            for (SlotAction action : actions) {
+                if(action.getClickType() == type){
+                    return action;
                 }
             }
         }
