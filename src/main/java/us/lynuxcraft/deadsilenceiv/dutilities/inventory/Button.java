@@ -29,8 +29,4 @@ public interface Button<T extends InteractiveItem> {
 
     T getCurrentItem();
 
-    void setSlot(int slot);
-
-    int getSlot();
-
 }

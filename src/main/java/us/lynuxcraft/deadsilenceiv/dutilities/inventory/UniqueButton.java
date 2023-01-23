@@ -26,4 +26,8 @@ public interface UniqueButton extends Button<UniqueItem> {
         getCurrentItem().refreshAsync(plugin);
     }
 
+    void setSlot(int slot);
+
+    int getSlot();
+
 }

@@ -26,4 +26,6 @@ public interface ShareableButton extends Button<ShareableItem> {
         getCurrentItem().refreshAsync(plugin,inventory);
     }
 
+    int getSlot(InteractiveInventory inventory);
+
 }
