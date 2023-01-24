@@ -75,11 +75,8 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
 
     protected ResizeResult changeLastPageSlots(int newAmount){
         int lastPageId = pages.size()-1;
-        int currentLastPageSlots = pages.get(lastPageId).getBukkitInventory().getSize();
+        int currentLastPageSlots = pages.get(lastPageId).getBukkitInventory().getSize()-9;
         if(currentLastPageSlots != newAmount){
-            System.out.println("last page slots were modified!");
-            System.out.println("current slots: "+currentLastPageSlots);
-            System.out.println("new amount of slots: "+newAmount);
             T removed = pages.remove(lastPageId);
             getInventoryManager().unRegister(removed);
             pages.put(lastPageId,newPage(lastPageId, newAmount));
