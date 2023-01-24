@@ -52,7 +52,8 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
             }
         }else if(numberOfPages < pages.size()){
             result = ResizeResult.REMOVED_PAGES;
-            for (int i = numberOfPages-1; i < pages.size(); i++) {
+            int start = pages.size()-numberOfPages-1;
+            for (int i = start; i < pages.size(); i++) {
                 T removed = pages.remove(i);
                 getInventoryManager().unRegister(removed);
                 modified.add(removed);
@@ -74,7 +75,7 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
         if(currentLastPageSlots != newAmount){
             T removed = pages.remove(lastPageId);
             getInventoryManager().unRegister(removed);
-            pages.put(pages.size(),newPage(pages.size(), newAmount));
+            pages.put(lastPageId,newPage(lastPageId, newAmount));
             return ResizeResult.LAST_PAGE_SLOTS_MODIFIED;
         }
         return ResizeResult.NOTHING;
