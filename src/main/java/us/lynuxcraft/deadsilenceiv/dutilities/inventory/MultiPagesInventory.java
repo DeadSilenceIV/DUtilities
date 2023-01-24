@@ -53,7 +53,9 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
         }else if(numberOfPages < pages.size()){
             result = ResizeResult.REMOVED_PAGES;
             int start = pages.size()-numberOfPages-1;
+            System.out.println("start: "+start);
             for (int i = start; i < pages.size(); i++) {
+                System.out.println(i);
                 T removed = pages.remove(i);
                 getInventoryManager().unRegister(removed);
                 modified.add(removed);
