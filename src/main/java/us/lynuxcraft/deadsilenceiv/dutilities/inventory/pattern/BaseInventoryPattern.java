@@ -18,5 +18,6 @@ public abstract class BaseInventoryPattern<I extends InteractiveInventory> imple
         this.items = items;
         this.inventory = new HashMap<>();
         this.defaultItem = defaultItem;
+        registerContent();
     }
 }

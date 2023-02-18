@@ -42,11 +42,8 @@ public interface InteractiveInventory {
         for (int slot : slots) {
             Set<SlotAction> actions = getSlotActions().get(slot);
             if(actions != null){
-                actions = new HashSet<>(actions);
-                getSlotActions().get(slot).clear();
-                for (SlotAction action : actions) {
-                    getActions().remove(action);
-                }
+                getActions().removeAll(actions);
+                getSlotActions().remove(slot);
             }
         }
     }

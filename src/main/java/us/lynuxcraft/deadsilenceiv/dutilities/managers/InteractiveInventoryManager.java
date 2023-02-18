@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InteractiveInventoryManager {
-    @Getter private final Map<Inventory, InteractiveInventory> inventories;
+    @Getter protected final Map<Inventory, InteractiveInventory> inventories;
     public InteractiveInventoryManager() {
         inventories = new HashMap<>();
     }

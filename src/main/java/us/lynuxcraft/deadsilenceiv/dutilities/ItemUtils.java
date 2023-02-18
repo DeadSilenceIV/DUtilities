@@ -15,8 +15,12 @@ import java.util.Map;
 public class ItemUtils {
     private static final Map<Short, ItemStack> CACHED_PANELS = new HashMap<>();
 
-    @SuppressWarnings("all")
     public static ItemStack getInventoryBackground(short color){
+        return getInventoryBackground(color,""+ChatColor.ITALIC+ChatColor.RESET);
+    }
+
+    @SuppressWarnings("all")
+    public static ItemStack getInventoryBackground(short color,String name){
         if(!CACHED_PANELS.containsKey(color)){
             XMaterial material;
             switch (color){
@@ -68,7 +72,7 @@ public class ItemUtils {
                 default:
                     material = XMaterial.BLACK_STAINED_GLASS_PANE;
             }
-            ItemStack item =  new ItemBuilder(material.parseItem()).setName(""+ ChatColor.ITALIC+ChatColor.RESET).build();
+            ItemStack item =  new ItemBuilder(material.parseItem()).setName(name).build();
             CACHED_PANELS.put(color,item);
             return item;
         }else{

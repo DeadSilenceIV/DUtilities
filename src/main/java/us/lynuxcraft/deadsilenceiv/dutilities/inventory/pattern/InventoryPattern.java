@@ -29,6 +29,13 @@ public interface InventoryPattern<I extends InteractiveInventory> {
                 item = getDefaultItem();
                 item.setup(inventory, i);
             }
+        }
+    }
+
+    default void registerContent(){
+        for (int i = 0; i < getInventorySize(); i++) {
+            char symbol = getBlueprint()[i];
+            PatternItem<I> item = getItem(symbol);
             getInventory().put(i,item);
         }
     }

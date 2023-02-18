@@ -4,7 +4,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginBase;
 import us.lynuxcraft.deadsilenceiv.dutilities.FileUtils;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 

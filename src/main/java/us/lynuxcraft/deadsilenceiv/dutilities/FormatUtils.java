@@ -1,8 +1,11 @@
 package us.lynuxcraft.deadsilenceiv.dutilities;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FormatUtils {
 
@@ -10,10 +13,16 @@ public class FormatUtils {
 
     private static SimpleDateFormat dateFormat;
 
+    private static SimpleDateFormat completeDateFormat;
+
     private static SimpleDateFormat hourFormat;
 
     public static String format(double number){
         return getDecimalFormat().format(number).replaceAll(",",".");
+    }
+
+    public static String formatCompleteDate(Timestamp timestamp){
+        return getCompleteDateFormat().format(timestamp);
     }
 
     public static String formatDate(Timestamp timestamp){
@@ -22,6 +31,32 @@ public class FormatUtils {
 
     public static String formatHour(Timestamp timestamp){
         return getHourFormat().format(timestamp);
+    }
+
+    public static Timestamp convertStringToTimestamp(String strDate) {
+        try {
+            DateFormat formatter = getCompleteDateFormat();
+            // you can change format of date
+            Date date = formatter.parse(strDate);
+            return new Timestamp(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String compactNumberFormat(float value) {
+        String[] arr = {"", "k", "m", "b", "t", "p", "e"};
+        int index = 0;
+        while ((value / 1000) >= 1) {
+            value = value / 1000;
+            index++;
+        }
+        if(arr.length >= index+1) {
+            return String.format("%s%s", getDecimalFormat().format(value), arr[index]);
+        }else{
+            return getDecimalFormat().format(value);
+        }
     }
 
     private static DecimalFormat getDecimalFormat(){
@@ -36,6 +71,13 @@ public class FormatUtils {
             dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         }
         return dateFormat;
+    }
+
+    private static SimpleDateFormat getCompleteDateFormat(){
+        if(completeDateFormat == null){
+            completeDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+        return completeDateFormat;
     }
 
     private static SimpleDateFormat getHourFormat(){

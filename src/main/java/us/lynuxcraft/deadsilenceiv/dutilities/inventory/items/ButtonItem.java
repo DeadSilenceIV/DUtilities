@@ -1,6 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory.items;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +19,7 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
     @Getter protected ItemMeta originalMeta;
     private Optional<String> cachedOriginalName;
     private List<String> cachedOriginalLore;
-    protected boolean initiallyRefreshed;
+    @Getter @Setter protected boolean initiallyRefreshed;
     public ButtonItem(T button, String name, ItemStack itemStack) {
         this.button = button;
         this.name = name;
@@ -47,7 +48,7 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
         for (Placeholder holder : placeholders) {
             String placeholder = holder.getSequence();
             if (name.contains(placeholder)) {
-                name = name.replaceAll(placeholder, ChatColor.translateAlternateColorCodes('&', holder.getReplacement()));
+                name = name.replace(placeholder, ChatColor.translateAlternateColorCodes('&', holder.getReplacement()));
             }
         }
         meta.setDisplayName(name);
@@ -62,8 +63,9 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
             String line = lore.get(i);
             for (Placeholder holder : placeholders) {
                 String placeholder = holder.getSequence();
-                if (line.contains(placeholder)) {
-                    line = line.replaceAll(placeholder, ChatColor.translateAlternateColorCodes('&', holder.getReplacement()));
+                String replacement;
+                if (line.contains(placeholder) && (replacement = holder.getReplacement()) != null) {
+                    line = line.replace(placeholder, ChatColor.translateAlternateColorCodes('&', replacement));
                 }
             }
             lore.set(i, line);
@@ -85,7 +87,7 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
         return cachedOriginalLore;
     }
 
-    protected ItemMeta getUpdatedMeta() {
+    public ItemMeta getUpdatedMeta() {
         ItemMeta updatedMeta = originalMeta.clone();
         updateName(updatedMeta);
         updateLore(updatedMeta);

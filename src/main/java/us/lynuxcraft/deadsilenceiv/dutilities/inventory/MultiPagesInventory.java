@@ -45,19 +45,15 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
         Set<T> modified = new HashSet<>();
         if(numberOfPages > pages.size()){
             result = ResizeResult.ADDED_PAGES;
-            for (int i = pages.size()-1; i < numberOfPages; i++) {
+            for (int i = pages.size(); i < numberOfPages; i++) {
                 T added = i < pagesToCreate ? newPage(i, 45) : newPage(i, lastPageSlots);
                 pages.put(i,added);
                 modified.add(added);
             }
         }else if(numberOfPages < pages.size()){
             result = ResizeResult.REMOVED_PAGES;
-            int start = pages.size()-numberOfPages-1;
             int finish = pages.size();
-            System.out.println("start: "+start);
-            System.out.println("number of pages: "+pages.size());
-            for (int i = start; i < finish; i++) {
-                System.out.println(i);
+            for (int i = numberOfPages; i < finish; i++) {
                 T removed = pages.remove(i);
                 getInventoryManager().unRegister(removed);
                 modified.add(removed);
@@ -77,9 +73,8 @@ public abstract class MultiPagesInventory<T extends InventoryPage>{
         int lastPageId = pages.size()-1;
         int currentLastPageSlots = pages.get(lastPageId).getBukkitInventory().getSize()-9;
         if(currentLastPageSlots != newAmount){
-            T removed = pages.remove(lastPageId);
+            T removed = pages.put(lastPageId,newPage(lastPageId, newAmount));
             getInventoryManager().unRegister(removed);
-            pages.put(lastPageId,newPage(lastPageId, newAmount));
             return ResizeResult.LAST_PAGE_SLOTS_MODIFIED;
         }
         return ResizeResult.NOTHING;
