@@ -1,6 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.storage;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginBase;
 import us.lynuxcraft.deadsilenceiv.dutilities.FileUtils;
@@ -17,12 +18,15 @@ import java.util.Set;
 public abstract class YamlDataFolder<I> implements YamlDataStorage{
     @Getter protected PluginBase plugin;
     protected File folder;
-    @Getter protected Map<I,Pair<File,YamlConfiguration>> data;
+    protected String folderName;
+    protected Map<I,Pair<File,YamlConfiguration>> data;
+    @Getter protected boolean preloaded;
     @SuppressWarnings("all")
-    public YamlDataFolder(PluginBase plugin, String folderName, Set<YamlDataFile> initialFiles) {
+    public YamlDataFolder(PluginBase plugin, String folderName, Set<YamlDataFile> initialFiles, boolean preloadFiles) {
         this.plugin = plugin;
         data = new HashMap<>();
         folder = new File(plugin.getDataFolder().getPath() + File.separator + folderName);
+        this.folderName = folderName;
         if (!folder.exists()) {
             folder.mkdirs();
             if (initialFiles != null) {
@@ -32,11 +36,18 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
                 }
             }
         }
-        load();
+        if(preloadFiles) {
+            load();
+            preloaded = preloadFiles;
+        }
+    }
+
+    public YamlDataFolder(PluginBase plugin, String folderName, Set<YamlDataFile> initialFiles) {
+        this(plugin,folderName,initialFiles,true);
     }
 
     public YamlDataFolder(PluginBase plugin,String folderName){
-        this(plugin,folderName,null);
+        this(plugin,folderName,null,true);
     }
 
     public abstract I getIdentifier(File file);
@@ -63,13 +74,17 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
      * @param identifier the file's identifier
      * @return the {@link Pair} of the config data, null if is not found.
      */
-    protected Pair<File,YamlConfiguration> getConfigData(I identifier){
-        for (I id : data.keySet()) {
-            if(id.equals(identifier)){
-                return data.get(identifier);
+    public Pair<File,YamlConfiguration> getConfigData(I identifier){
+        Pair<File,YamlConfiguration> pair = data.get(identifier);
+        if(pair == null && !preloaded) {
+            File file = new File(folder.getPath() + File.separator + identifier.toString() + ".yml");
+            if (file.exists()) {
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+                pair = new Pair<>(file, config);
+                data.put(identifier, pair);
             }
         }
-        return null;
+        return pair;
     }
 
     /**
@@ -102,6 +117,11 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
             return true;
         }
         return false;
+    }
+
+    public boolean exists(I identifier){
+        File file = new File(folder.getPath()+File.separator+identifier.toString()+".yml");
+        return file.exists();
     }
 
 }

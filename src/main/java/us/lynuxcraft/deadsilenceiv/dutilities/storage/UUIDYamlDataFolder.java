@@ -9,6 +9,15 @@ import java.util.UUID;
 
 public class UUIDYamlDataFolder extends YamlDataFolder<UUID> {
 
+    public UUIDYamlDataFolder(PluginBase plugin, String folderName,Set<YamlDataFile> initialFiles, boolean preload) {
+        super(plugin, folderName,initialFiles,preload);
+    }
+
+    public UUIDYamlDataFolder(PluginBase plugin, String folderName, boolean preload) {
+        super(plugin, folderName,null,preload);
+    }
+
+
     public UUIDYamlDataFolder(PluginBase plugin, String folderName, Set<YamlDataFile> initialFiles) {
         super(plugin, folderName, initialFiles);
     }
