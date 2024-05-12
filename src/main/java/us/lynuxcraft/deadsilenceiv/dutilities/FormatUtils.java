@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class FormatUtils {
 
@@ -57,6 +58,18 @@ public class FormatUtils {
         }else{
             return getDecimalFormat().format(value);
         }
+    }
+
+    public static String listToString(List<String> list){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            String line = list.get(i);
+            builder.append(line);
+            if(i < list.size()-1){
+                builder.append("\n");
+            }
+        }
+        return builder.toString();
     }
 
     private static DecimalFormat getDecimalFormat(){

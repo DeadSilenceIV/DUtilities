@@ -2,9 +2,10 @@ package us.lynuxcraft.deadsilenceiv.dutilities;
 
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Pair<K,V>{
+public class Pair<K,V> implements Serializable {
     @Getter private K key;
     @Getter private V value;
     public Pair(K key,V value) {

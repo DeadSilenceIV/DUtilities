@@ -1,16 +1,15 @@
 package us.lynuxcraft.deadsilenceiv.dutilities;
 
-import lombok.Getter;
 
-public class Range {
-    @Getter private double bottom;
-    @Getter private double top;
-    public Range(double bottom, double high){
-        this.bottom = bottom;
-        this.top = high;
+public class Range extends BaseInterval<Double>{
+    public Range(double bottom, double top){
+        super(bottom,top,false,false);
     }
 
+    @Override
     public boolean contains(Double number){
-        return (number >= bottom && number <= top);
+        boolean first = (bottomOpened) ? number > bottom : number >= bottom;
+        boolean second = (topOpened) ? number > top : number >= top;
+        return (first && second);
     }
 }

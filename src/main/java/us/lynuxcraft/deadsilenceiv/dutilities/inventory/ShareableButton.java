@@ -1,6 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ShareableItem;
 
@@ -14,6 +15,11 @@ public interface ShareableButton extends Button<ShareableItem> {
             item.show(inventory);
             setCurrentItem(item);
         }
+    }
+
+    default void hide(ItemStack replacement,InteractiveInventory inventory){
+        inventory.getBukkitInventory().setItem(getSlot(inventory),replacement);
+        setCurrentItem(null);
     }
 
     default void refresh(@Nullable InteractiveInventory inventory){

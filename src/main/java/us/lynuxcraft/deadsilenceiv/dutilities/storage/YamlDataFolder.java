@@ -1,7 +1,6 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.storage;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginBase;
 import us.lynuxcraft.deadsilenceiv.dutilities.FileUtils;

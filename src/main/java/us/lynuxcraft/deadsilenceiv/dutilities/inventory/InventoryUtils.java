@@ -1,5 +1,6 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,6 +41,20 @@ public class InventoryUtils {
             if(inventory.getItem(i) == null)return i;
         }
         return null;
+    }
+
+    public static int remove(Inventory inventory, Material material,int multiple){
+        int deleted = 0;
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack item = inventory.getItem(i);
+            if(item != null && item.getType() == material && !item.hasItemMeta()){
+                int amount = item.getAmount();
+                int grouped = amount/multiple;
+                deleted += grouped;
+                item.setAmount(amount-(grouped*multiple));
+            }
+        }
+        return deleted;
     }
 
 }

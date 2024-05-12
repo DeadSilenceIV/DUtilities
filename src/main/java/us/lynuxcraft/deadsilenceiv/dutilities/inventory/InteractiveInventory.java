@@ -23,6 +23,10 @@ public interface InteractiveInventory {
         getButtons().add(button);
     }
 
+    default void removeButton(Button button){
+        getButtons().remove(button);
+    }
+
     default void addAction(InteractiveAction action){
         getActions().add(action);
         if(action instanceof SlotAction){
@@ -117,6 +121,13 @@ public interface InteractiveInventory {
         for (int i = 0; i < viewers.size(); i++){
             viewers.get(i).closeInventory();
         }
+    }
+
+    default List<HumanEntity> getViewers(){
+        if(getBukkitInventory() == null){
+            return null;
+        }
+        return new ArrayList<>(getBukkitInventory().getViewers());
     }
 
     void handleInventoryInteraction(InventoryClickEvent event);

@@ -40,4 +40,8 @@ public class UniqueButtonItem extends ButtonItem<UniqueButton> implements Unique
         });
     }
 
+    public void setItem(){
+        button.getInventory().setItem(button.getSlot(), itemStack);
+    }
+
 }
