@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import us.lynuxcraft.deadsilenceiv.dutilities.NumberUtils;
 
 public class InventoryUtils {
 
@@ -43,18 +44,23 @@ public class InventoryUtils {
         return null;
     }
 
-    public static int remove(Inventory inventory, Material material,int multiple){
-        int deleted = 0;
+    public static int remove(Inventory inventory, Material material,int limit){
+        int deletedItems = 0;
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack item = inventory.getItem(i);
             if(item != null && item.getType() == material && !item.hasItemMeta()){
-                int amount = item.getAmount();
-                int grouped = amount/multiple;
-                deleted += grouped;
-                item.setAmount(amount-(grouped*multiple));
+                int amountToDelete = item.getAmount();
+                if(limit > 0 && deletedItems+amountToDelete >= limit){
+                    amountToDelete = limit-deletedItems;
+                    deletedItems += amountToDelete;
+                    item.setAmount(item.getAmount()-amountToDelete);
+                    break;
+                }
+                deletedItems += amountToDelete;
+                item.setAmount(0);
             }
         }
-        return deleted;
+        return deletedItems;
     }
 
 }

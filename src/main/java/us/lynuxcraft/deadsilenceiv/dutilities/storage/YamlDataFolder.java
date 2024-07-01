@@ -71,19 +71,39 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
      * Gets the config data of an uuid.
      *
      * @param identifier the file's identifier
+     * @param store if you want to store the information in cache
      * @return the {@link Pair} of the config data, null if is not found.
      */
-    public Pair<File,YamlConfiguration> getConfigData(I identifier){
+    public Pair<File,YamlConfiguration> getConfigData(I identifier,boolean store){
         Pair<File,YamlConfiguration> pair = data.get(identifier);
         if(pair == null && !preloaded) {
             File file = new File(folder.getPath() + File.separator + identifier.toString() + ".yml");
             if (file.exists()) {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 pair = new Pair<>(file, config);
-                data.put(identifier, pair);
+                if(store) {
+                    data.put(identifier, pair);
+                }
             }
         }
         return pair;
+    }
+
+    public Pair<File,YamlConfiguration> getConfigData(I identifier){
+        return getConfigData(identifier,true);
+    }
+
+    /**
+     * Creates the config data for a specified uuid.
+     *
+     * @param identifier the file's identifier
+     * @return the {@link Pair} of the config data created.
+     */
+    protected Pair<File,YamlConfiguration> create(I identifier){
+        File file = new File(folder.getPath()+File.separator+identifier.toString()+".yml");
+        if(!file.exists()) FileUtils.create(file);
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        return new Pair<>(file,config);
     }
 
     /**
@@ -93,12 +113,9 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
      * @return the {@link Pair} of the config data created and saved.
      */
     protected Pair<File,YamlConfiguration> createAndSaveConfigDataInCache(I identifier){
-        File file = new File(folder.getPath()+File.separator+identifier.toString()+".yml");
-        if(!file.exists()) FileUtils.create(file);
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        Pair<File,YamlConfiguration> configData = new Pair<>(file,config);
-        data.put(identifier,configData);
-        return configData;
+        Pair<File,YamlConfiguration> pair = create(identifier);
+        data.put(identifier,pair);
+        return pair;
     }
 
     /**
@@ -114,6 +131,12 @@ public abstract class YamlDataFolder<I> implements YamlDataStorage{
             file.delete();
             data.remove(identifier);
             return true;
+        }else{
+            File file = new File(folder.getPath()+File.separator+identifier.toString()+".yml");
+            if(file.exists()) {
+                file.delete();
+                return true;
+            }
         }
         return false;
     }
