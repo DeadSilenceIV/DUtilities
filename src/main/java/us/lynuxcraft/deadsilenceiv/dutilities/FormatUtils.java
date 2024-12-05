@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class FormatUtils {
 
@@ -95,7 +96,8 @@ public class FormatUtils {
 
     private static SimpleDateFormat getHourFormat(){
         if(hourFormat == null){
-            hourFormat = new SimpleDateFormat("HH-mm-ss");
+            hourFormat = new SimpleDateFormat("HH:mm:ss");
+            hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
         return hourFormat;
     }

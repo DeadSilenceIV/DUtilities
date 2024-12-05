@@ -14,9 +14,14 @@ import java.util.Map;
 
 public class ItemUtils {
     private static final Map<Short, ItemStack> CACHED_PANELS = new HashMap<>();
+    private static final Map<Short, ItemStack> CACHED_WOOLS = new HashMap<>();
 
     public static ItemStack getInventoryBackground(short color){
         return getInventoryBackground(color,""+ChatColor.ITALIC+ChatColor.RESET);
+    }
+
+    public static ItemStack getInventoryWool(short color){
+        return getInventoryWool(color,""+ChatColor.ITALIC+ChatColor.RESET);
     }
 
     @SuppressWarnings("all")
@@ -77,6 +82,67 @@ public class ItemUtils {
             return item;
         }else{
             return CACHED_PANELS.get(color);
+        }
+    }
+
+    @SuppressWarnings("all")
+    public static ItemStack getInventoryWool(short color,String name){
+        if(!CACHED_WOOLS.containsKey(color)){
+            XMaterial material;
+            switch (color){
+                case 0:
+                    material = XMaterial.WHITE_WOOL;
+                    break;
+                case 1:
+                    material = XMaterial.MAGENTA_WOOL;
+                    break;
+                case 2:
+                    material = XMaterial.MAGENTA_WOOL;
+                    break;
+                case 3:
+                    material = XMaterial.LIGHT_BLUE_WOOL;
+                    break;
+                case 4:
+                    material = XMaterial.YELLOW_WOOL;
+                    break;
+                case 5:
+                    material = XMaterial.LIME_WOOL;
+                    break;
+                case 6:
+                    material = XMaterial.PINK_WOOL;
+                    break;
+                case 7:
+                    material = XMaterial.GRAY_WOOL;
+                    break;
+                case 8:
+                    material = XMaterial.LIGHT_GRAY_WOOL;
+                    break;
+                case 9:
+                    material = XMaterial.CYAN_WOOL;
+                    break;
+                case 10:
+                    material = XMaterial.PURPLE_WOOL;
+                    break;
+                case 11:
+                    material = XMaterial.BLUE_WOOL;
+                    break;
+                case 12:
+                    material = XMaterial.BROWN_WOOL;
+                    break;
+                case 13:
+                    material = XMaterial.GREEN_WOOL;
+                    break;
+                case 14:
+                    material = XMaterial.RED_WOOL;
+                    break;
+                default:
+                    material = XMaterial.BLACK_WOOL;
+            }
+            ItemStack item =  new ItemBuilder(material.parseItem()).setName(name).build();
+            CACHED_WOOLS.put(color,item);
+            return item;
+        }else{
+            return CACHED_WOOLS.get(color);
         }
     }
 

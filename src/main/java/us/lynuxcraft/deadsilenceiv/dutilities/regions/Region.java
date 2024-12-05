@@ -1,14 +1,15 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.regions;
 
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 public class Region {
-    private final World world;
+    @Setter private World world;
     private final int x1, y1, z1;
     private final int x2, y2, z2;
     public Region(Location pointA, Location pointB) {
@@ -73,6 +74,13 @@ public class Region {
         return new Location(world, this.getLowerX() + (x1 - this.getLowerX()) / 2.0, this.getLowerY() + (y1 - this.getLowerY()) / 2.0, this.getLowerZ() + (z1 - this.getLowerZ()) / 2.0);
     }
 
+    public Location getLocationA(){
+        return new Location(world, x1, y1, z1);
+    }
+
+    public Location getLocationB(){
+        return new Location(world, x2, y2, z2);
+    }
 
     public List<Location> getLocations(){
         List<Location> locations = new ArrayList<>();
@@ -84,5 +92,18 @@ public class Region {
             }
         }
         return locations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Region region = (Region) o;
+        return x1 == region.x1 && y1 == region.y1 && z1 == region.z1 && x2 == region.x2 && y2 == region.y2 && z2 == region.z2 && Objects.equals(world.getName(), region.world.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(world.getName(), x1, y1, z1, x2, y2, z2);
     }
 }

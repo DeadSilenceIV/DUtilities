@@ -26,7 +26,7 @@ public class YamlResource extends YamlDataFile {
     protected void load(){
         String folderPath = "";
         if(!resourceFolder.isEmpty()){
-            folderPath = resourceFolder+File.separator;
+            folderPath = resourceFolder+"/";
         }
         InputStream input = plugin.getResource(folderPath+fileName);
         if(!plugin.getDataFolder().exists())plugin.getDataFolder().mkdirs();

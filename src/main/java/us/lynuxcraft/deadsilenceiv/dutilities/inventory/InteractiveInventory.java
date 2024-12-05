@@ -37,6 +37,12 @@ public interface InteractiveInventory {
         }
     }
 
+    default void addActions(Collection<InteractiveAction> actions){
+        for (InteractiveAction action : actions) {
+            addAction(action);
+        }
+    }
+
     default void clearActions(){
         getActions().clear();
         getSlotActions().clear();

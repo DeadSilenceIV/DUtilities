@@ -9,7 +9,7 @@ public class Range extends BaseInterval<Double>{
     @Override
     public boolean contains(Double number){
         boolean first = (bottomOpened) ? number > bottom : number >= bottom;
-        boolean second = (topOpened) ? number > top : number >= top;
+        boolean second = (topOpened) ? number < top : number <= top;
         return (first && second);
     }
 }
