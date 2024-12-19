@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import us.lynuxcraft.deadsilenceiv.dutilities.NumberUtils;
 
 public class InventoryUtils {
 
