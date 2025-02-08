@@ -1,12 +1,13 @@
-package us.lynuxcraft.deadsilenceiv.dutilities.inventory.items;
+package us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.items;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.UniqueButton;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.UniqueButton;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.UniqueItem;
 
-public class UniqueButtonItem extends ButtonItem<UniqueButton> implements UniqueItem{
+public class UniqueButtonItem extends ButtonItem<UniqueButton> implements UniqueItem {
     public UniqueButtonItem(UniqueButton button, String name, ItemStack itemStack) {
         super(button, name, itemStack);
     }

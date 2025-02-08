@@ -6,25 +6,25 @@ import us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.items.PatternIte
 import java.util.Map;
 import java.util.Set;
 
-public interface InventoryPattern<I extends InteractiveInventory> {
+public interface InventoryPattern{
 
-    PatternItem<I> getDefaultItem();
+    PatternItem getDefaultItem();
 
     char[] getBlueprint();
 
-    Set<PatternItem<I>> getItems();
+    Set<PatternItem> getItems();
 
-    Map<Integer,PatternItem<I>> getInventory();
+    Map<Integer,PatternItem> getInventory();
 
     /**
      * Setups the pattern in a specified InteractiveInventory.
      *
      * @param inventory the inventory where the pattern will be setup.
      */
-    default void setup(I inventory){
+    default void setup(InteractiveInventory inventory){
         for (int i = 0; i < getInventorySize(); i++) {
             char symbol = getBlueprint()[i];
-            PatternItem<I> item = getItem(symbol);
+            PatternItem item = getItem(symbol);
             if(item == null || !item.setup(inventory,i)) {
                 item = getDefaultItem();
                 item.setup(inventory, i);
@@ -35,7 +35,7 @@ public interface InventoryPattern<I extends InteractiveInventory> {
     default void registerContent(){
         for (int i = 0; i < getInventorySize(); i++) {
             char symbol = getBlueprint()[i];
-            PatternItem<I> item = getItem(symbol);
+            PatternItem item = getItem(symbol);
             getInventory().put(i,item);
         }
     }
@@ -46,14 +46,14 @@ public interface InventoryPattern<I extends InteractiveInventory> {
      * @param symbol the symbol of the pattern
      * @return the PatternItem instance, false if any item with the specified symbol was found.
      */
-    default PatternItem<I> getItem(char symbol){
-        for (PatternItem<I> item : getItems()) {
+    default PatternItem getItem(char symbol){
+        for (PatternItem item : getItems()) {
             if(item.getSymbol() == symbol)return item;
         }
         return null;
     }
 
-    default PatternItem<I> getItem(int slot){
+    default PatternItem getItem(int slot){
         return getInventory().get(slot);
     }
 

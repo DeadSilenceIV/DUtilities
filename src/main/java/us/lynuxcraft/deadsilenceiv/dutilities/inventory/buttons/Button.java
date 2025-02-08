@@ -1,4 +1,4 @@
-package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
+package us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons;
 
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 

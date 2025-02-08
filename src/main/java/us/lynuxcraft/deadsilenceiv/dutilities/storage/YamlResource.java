@@ -26,7 +26,7 @@ public class YamlResource extends YamlDataFile {
     protected void load(){
         String folderPath = "";
         if(!resourceFolder.isEmpty()){
-            folderPath = resourceFolder+"/";
+            folderPath = resourceFolder+File.separator;
         }
         InputStream input = plugin.getResource(folderPath+fileName);
         if(!plugin.getDataFolder().exists())plugin.getDataFolder().mkdirs();
@@ -44,7 +44,7 @@ public class YamlResource extends YamlDataFile {
         if(!file.exists()) {
             try {
                 if(!folderName.isEmpty()){
-                    File folder = new File(plugin.getDataFolder()+File.separator+folderName);
+                    File folder = new File(plugin.getDataFolder().getPath()+File.separator+folderName);
                     if(!folder.exists()){
                         folder.mkdirs();
                     }

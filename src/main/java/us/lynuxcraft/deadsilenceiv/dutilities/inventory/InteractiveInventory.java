@@ -1,12 +1,12 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
 
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.actions.*;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.Button;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 
 import java.util.*;
@@ -136,9 +136,18 @@ public interface InteractiveInventory {
         return new ArrayList<>(getBukkitInventory().getViewers());
     }
 
-    void handleInventoryInteraction(InventoryClickEvent event);
+    default void handleInventoryInteraction(InventoryClickEvent event){}
 
     default void handleInventoryDragging(InventoryDragEvent event){}
+
+    default void handleInventoryOpening(InventoryOpenEvent event){}
+
+    default void handleInventoryClosing(InventoryCloseEvent event){}
+
+
+    default void open(Player player){
+        player.openInventory(getBukkitInventory());
+    }
 
     Inventory getBukkitInventory();
 

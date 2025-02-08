@@ -1,13 +1,14 @@
-package us.lynuxcraft.deadsilenceiv.dutilities.inventory.items;
+package us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.items;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.ShareableButton;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.ShareableButton;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.ShareableItem;
 
-public class ShareableButtonItem extends ButtonItem<ShareableButton> implements ShareableItem{
+public class ShareableButtonItem extends ButtonItem<ShareableButton> implements ShareableItem {
     public ShareableButtonItem(ShareableButton button, String name, ItemStack itemStack) {
         super(button, name, itemStack);
     }

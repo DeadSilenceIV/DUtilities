@@ -11,7 +11,7 @@ public class ConfigUtils {
     public static ItemStack getIcon(ConfigurationSection main){
         Material material;
         try {
-            material = Material.valueOf(main.getString("type"));
+            material = Material.valueOf(main.getString("type","STONE"));
         }catch (IllegalArgumentException e){
             material = Material.STONE;
         }

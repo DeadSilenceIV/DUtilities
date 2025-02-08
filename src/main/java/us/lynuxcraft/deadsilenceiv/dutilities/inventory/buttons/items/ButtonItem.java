@@ -1,12 +1,15 @@
-package us.lynuxcraft.deadsilenceiv.dutilities.inventory.items;
+package us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.items;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import us.lynuxcraft.deadsilenceiv.dutilities.Placeholder;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.Button;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.Button;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.items.InteractiveItem;
 
 import java.util.*;
 
@@ -67,6 +70,9 @@ public class ButtonItem<T extends Button<? extends InteractiveItem>> implements 
                 if (line.contains(placeholder) && (replacement = holder.getReplacement()) != null) {
                     line = line.replace(placeholder, ChatColor.translateAlternateColorCodes('&', replacement));
                 }
+            }
+            if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+                line = PlaceholderAPI.setPlaceholders(null, line);
             }
             if(line.contains("\\n")){
                 line = line.replace("\\n","\n");

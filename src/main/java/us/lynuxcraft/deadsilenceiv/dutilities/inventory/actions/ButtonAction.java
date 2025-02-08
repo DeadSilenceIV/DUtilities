@@ -2,7 +2,7 @@ package us.lynuxcraft.deadsilenceiv.dutilities.inventory.actions;
 
 import lombok.Getter;
 import org.bukkit.event.inventory.ClickType;
-import us.lynuxcraft.deadsilenceiv.dutilities.inventory.Button;
+import us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons.Button;
 
 public abstract class ButtonAction extends InteractiveAction {
     @Getter private Button button;

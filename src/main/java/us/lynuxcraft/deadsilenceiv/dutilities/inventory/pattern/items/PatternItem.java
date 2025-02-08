@@ -1,13 +1,11 @@
 package us.lynuxcraft.deadsilenceiv.dutilities.inventory.pattern.items;
 
-
 import us.lynuxcraft.deadsilenceiv.dutilities.inventory.InteractiveInventory;
 
 /**
- * This class represents an item inside the pattern content
- * {@link BaseInventoryPattern}.
+ * This class represents an item inside the pattern content of an InteractiveInventory.
  */
-public interface PatternItem<I extends InteractiveInventory> {
+public interface PatternItem{
 
     /**
      * Gets the symbol of the item.
@@ -23,5 +21,5 @@ public interface PatternItem<I extends InteractiveInventory> {
      * @param slot the slot where the item will be setup
      * @return true if the item was correctly setup, false otherwise.
      */
-    boolean setup(I inventory, int slot);
+    boolean setup(InteractiveInventory inventory, int slot);
 }

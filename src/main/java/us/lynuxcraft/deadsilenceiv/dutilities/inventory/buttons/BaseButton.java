@@ -1,4 +1,4 @@
-package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
+package us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons;
 
 import lombok.Getter;
 import lombok.Setter;

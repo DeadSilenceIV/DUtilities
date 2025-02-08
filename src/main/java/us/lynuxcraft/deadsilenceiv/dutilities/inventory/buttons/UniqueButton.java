@@ -1,4 +1,4 @@
-package us.lynuxcraft.deadsilenceiv.dutilities.inventory;
+package us.lynuxcraft.deadsilenceiv.dutilities.inventory.buttons;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

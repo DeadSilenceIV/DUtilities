@@ -5,6 +5,10 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -47,7 +51,7 @@ public class FormatUtils {
         }
     }
 
-    public static String compactNumberFormat(float value) {
+    public static String compactNumberFormat(double value) {
         String[] arr = {"", "k", "m", "b", "t", "p", "e"};
         int index = 0;
         while ((value / 1000) >= 1) {
@@ -71,6 +75,18 @@ public class FormatUtils {
             }
         }
         return builder.toString();
+    }
+
+    public static String timeRemaining(long endTime){
+        LocalDateTime currentTime = LocalDateTime.now();
+        Instant future = Instant.ofEpochMilli(endTime);
+        LocalDateTime futureTime = future.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        Duration duration = Duration.between(currentTime, futureTime);
+        long days = Math.max(0,duration.toDays());
+        long hours = Math.max(0,duration.minusDays(days).toHours());
+        long minutes = Math.max(0,duration.minusDays(days).minusHours(hours).toMinutes());
+        long seconds = Math.max(0,duration.minusDays(days).minusHours(hours).minusMinutes(minutes).getSeconds());
+        return String.format("%dd %dh %dm %ds", days, hours, minutes, seconds);
     }
 
     private static DecimalFormat getDecimalFormat(){

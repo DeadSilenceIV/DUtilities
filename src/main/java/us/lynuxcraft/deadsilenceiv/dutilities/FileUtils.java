@@ -1,5 +1,7 @@
 package us.lynuxcraft.deadsilenceiv.dutilities;
 
+import com.google.common.io.Files;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +11,7 @@ public class FileUtils {
 
     public static void create(File file){
         try{
+            Files.createParentDirs(file);
             file.createNewFile();
         }catch (IOException e){
             e.printStackTrace();
