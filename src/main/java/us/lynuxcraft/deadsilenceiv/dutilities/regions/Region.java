@@ -3,15 +3,17 @@ package us.lynuxcraft.deadsilenceiv.dutilities.regions;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.util.BlockVector;
+import us.lynuxcraft.deadsilenceiv.dutilities.ChunkLocation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Region {
     @Setter private World world;
     private final int x1, y1, z1;
     private final int x2, y2, z2;
+    private Set<BlockVector> vectors;
+    private Set<ChunkLocation> chunks;
     public Region(Location pointA, Location pointB) {
         if (!pointA.getWorld().equals(pointB.getWorld())) throw new IllegalArgumentException("Locations must be on the same world");
         this.world = pointA.getWorld();
@@ -92,6 +94,30 @@ public class Region {
             }
         }
         return locations;
+    }
+
+    public Set<ChunkLocation> getChunkLocations(){
+        if(chunks == null){
+            chunks = new HashSet<>();
+            for (BlockVector vector : getVectors()) {
+                chunks.add(new ChunkLocation(vector.toLocation(world)));
+            }
+        }
+        return chunks;
+    }
+
+    public Set<BlockVector> getVectors() {
+        if(vectors == null){
+            vectors = new HashSet<>();
+            for(int x = getLowerX(); x <= getUpperX(); x++){
+                for(int y = getLowerY(); y <= getUpperY(); y++){
+                    for(int z = getLowerZ(); z <= getUpperZ(); z++){
+                        vectors.add(new BlockVector(x, y, z));
+                    }
+                }
+            }
+        }
+        return vectors;
     }
 
     @Override
